@@ -59,11 +59,9 @@ const startServer = async () => {
     await sequelize.authenticate();
     console.log('✅ [Database] Connected to PostgreSQL');
 
-    // Sync models (in development)
-    if (process.env.NODE_ENV !== 'production') {
-      await sequelize.sync({ alter: true });
-      console.log('✅ [Database] Models synchronized');
-    }
+    // Sync models - create tables if they don't exist
+    await sequelize.sync({ alter: true });
+    console.log('✅ [Database] Models synchronized');
 
     app.listen(PORT, () => {
       console.log(`🚀 [Server] Voodley API running on port ${PORT}`);
